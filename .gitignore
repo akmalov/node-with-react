@@ -10,7 +10,7 @@ coverage/
 bundle.js
 /coverage
 /build
-/config/key.js
+config/keys.js
 .env.local
 .env.development.local
 .env.test.local
