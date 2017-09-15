@@ -1,19 +1,19 @@
 import _ from 'lodash';
 import React, {Component} from 'react';
 import {reduxForm, Field} from 'redux-form';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import SurveyField from './SurveyField';
 
 const FIELDS = [
-  { label: 'Survey Title', name: 'title'},
-  { label: 'Subject Line', name: 'subject'},
-  { label: 'Email Body', name: 'body'},
-  { label: 'Recipient List', name: 'emails'}
+  {label: 'Survey Title', name: 'title', noValueError: 'Enter a Survey Title'},
+  {label: 'Subject Line', name: 'subject', noValueError: 'Enter a Survey Line'},
+  {label: 'Email Body', name: 'body', noValueError: 'Enter a Email Body'},
+  {label: 'Recipient List', name: 'emails', noValueError: 'Enter a Recipient List'}
 ];
 
 class SurveyForm extends Component {
   renderFields() {
-    return _.map(FIELDS, ({ label, name }) => {
+    return _.map(FIELDS, ({label, name}) => {
       return <Field key={name} component={SurveyField} type="text" label={label} name={name}/>
     })
   }
@@ -39,9 +39,11 @@ class SurveyForm extends Component {
 function validate(values) {
   const errors = {};
 
-  if (!values.title) {
-    errors.title = 'You must provide a title';
-  }
+  _.each(FIELDS, ({name, noValueError}) => {
+    if (!values[name]) {
+      errors[name] = noValueError;
+    }
+  });
 
   return errors;
 }
